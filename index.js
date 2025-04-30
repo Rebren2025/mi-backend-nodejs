@@ -28,6 +28,21 @@ app.get('/justificantes', async (req, res) => {
   }
 });
 
+// Ruta para obtener todos los justificantes
+app.get('/estatus_incidencia', async (req, res) => {
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const rows = await conn.query('SELECT * FROM estatus_incidencia');
+    res.json(rows);  // Devuelve los resultados como JSON
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error al obtener los datos');
+  } finally {
+    if (conn) conn.release();
+  }
+});
+
 app.listen(port, () => {
   console.log(`Servidor en ejecución en http://localhost:${port}`);
 });
